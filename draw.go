@@ -10,8 +10,6 @@ import (
 
 func main() {
 	ParseFlag()
-	fmt.Printf("this prize is a %s\r\n", *prize)
-	fmt.Println("winners are:")
 	people, err := readAll(*sourceFile)
 	if err != nil {
 		log.Fatalln(err)
@@ -21,9 +19,9 @@ func main() {
 		log.Fatalln(err)
 	}
 	sort.Sort(sort.Reverse(sort.IntSlice(winnerPos)))
-	winner := make([][]string, 0, len(winnerPos))
+	winners := make([][]string, 0, len(winnerPos))
 	for _, i := range winnerPos {
-		winner = append(winner, people[i])
+		winners = append(winners, people[i])
 		people = append(people[:i], people[i+1:]...)
 	}
 
@@ -33,12 +31,12 @@ func main() {
 	}
 
 	targetPath := filepath.Join(*toPath, fmt.Sprintf("winner_%s.csv", *prize))
-	err = writeAll(targetPath, winner)
+	err = writeAll(targetPath, winners)
 	if err != nil {
 		log.Fatalln(err)
 	}
 
-	err = show(os.Stdout, winner)
+	err = showResult(os.Stdout, result{Winners: winners, Prize: *prize})
 	if err != nil {
 		log.Fatalln(err)
 	}

@@ -5,5 +5,5 @@ import (
 )
 
 func showWinner(winner []string) string {
-	return fmt.Sprintf("%-15s %-15s", winner[0], winner[1])
+	return fmt.Sprintf("%-15s %-15s", winner[TelColumn], winner[NameColumn])
 }
